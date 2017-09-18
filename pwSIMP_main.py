@@ -1,8 +1,6 @@
 # Python imports
 import tkinter
 import logging
-import pygame
-import pyglet
 
 # Project imports
 # import converter_utilities as utils
@@ -19,7 +17,6 @@ def main():
 
     while True:
         root.update()
-        pygame.display.update()
 
     # root.after(100,pygame_update)
     # #root.after_idle(pygame.display.update)

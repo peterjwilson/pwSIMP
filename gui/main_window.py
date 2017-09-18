@@ -2,11 +2,10 @@
 import tkinter as tk
 from tkinter import ttk
 import logging
-import _thread
 
 
 # Project imports
-from gui import pygame_window
+from gui import visualisation_window
 from gui import popup_window_form_2col
 
 from fe_code.data_structures import system_data
@@ -49,7 +48,8 @@ class mainWindow(): # This is the main Window
         self.child_frame_2 = self._SetChildFrame(child_frame_2_w)
         self.child_frame_2.pack(anchor=tk.N, fill=tk.BOTH, expand=True, side=tk.LEFT)
         root_window.update()
-        self.pygame_instance = pygame_window.pygameWindow(self.child_frame_2,child_frame_2_w,self.child_frame_2.winfo_height(),self.system_data,self.gui_data)
+        self.visualisation_window = visualisation_window.visualisationWindow(self.system_data,self.child_frame_2)
+
 
     def _SetMainFrame(self):
         frame_main = ttk.Frame(self.window)
@@ -63,7 +63,7 @@ class mainWindow(): # This is the main Window
     def _InitializeFrame1Widgets(self,frame,child_frame_1_w,vertical_index):
         self._CreateLabel(frame,"Geometry definition",vertical_index,child_frame_1_w)
         self._SetButton_DefineGeometry(frame,"Define basic geometry",vertical_index,child_frame_1_w)
-        self._SetButton_ImportGeometry(frame, "Import external geometry", vertical_index, child_frame_1_w)
+        #self._SetButton_ImportGeometry(frame, "Import external geometry", vertical_index, child_frame_1_w)
 
         self._CreateLabel(frame, "View options", vertical_index, child_frame_1_w)
         self._SetButton_DisplayNodes(frame, "Display nodes", vertical_index, child_frame_1_w)
@@ -210,7 +210,7 @@ class mainWindow(): # This is the main Window
         X4 = Xmin
         Y4 = Ymax
 
-        # split into triangle elements with divisions
+        # split into square elements with divisions
         Xdiv = float(self.input_variable_vector[4].get())
         Ydiv = float(self.input_variable_vector[5].get())
         number_of_square_elements = int(Xdiv * Ydiv)
@@ -222,51 +222,101 @@ class mainWindow(): # This is the main Window
 
         for i in range(number_of_square_elements):
             # work like a typewriter, horizontally to the end, then back and up
-            Xindex = i%Xdiv
-            Yindex = (i - Xindex)/Xdiv
+            Xindex = i % Xdiv
+            Yindex = (i - Xindex) / Xdiv
 
-            #now determine nodes of 1st triangle element at current index
-            x1 = Xindex*Xstep
-            y1 = Yindex*Ystep
+            # now determine nodes of 1st quad element at current index
+            x1 = Xindex * Xstep
+            y1 = Yindex * Ystep
             z1 = 0.0
 
-            x2 = (Xindex+1)*Xstep
+            x2 = (Xindex + 1) * Xstep
             y2 = y1
             z2 = 0.0
 
-            x3 = x1
-            y3 = (Yindex+1)*Ystep
+            x3 = x2
+            y3 = (Yindex + 1) * Ystep
             z3 = 0.0
 
-            n1 = [x1,y1,z1]
-            n2 = [x2, y2, z2]
-            n3 = [x3, y3, z3]
-            node_vector.clear()
-            node_vector.append(n1)
-            node_vector.append(n2)
-            node_vector.append(n3)
-
-            geom_data.add_element('T3',node_vector,2*i + 1)
-
-            # now determine nodes of 2nd triangle element at current index
-            x1 = x2
-            y1 = y2
-            z1 = z2
-
-            y2 = y3
-            z2 = 0.0
+            x4 = x1
+            y4 = y3
+            z4 = 0.0
 
             n1 = [x1, y1, z1]
             n2 = [x2, y2, z2]
             n3 = [x3, y3, z3]
+            n4 = [x4, y4, z4]
             node_vector.clear()
             node_vector.append(n1)
             node_vector.append(n2)
             node_vector.append(n3)
+            node_vector.append(n4)
 
-            geom_data.add_element('T3', node_vector, 2 * i + 2)
+            geom_data.add_element('Q4', node_vector, i + 1)
+        geom_data.removeDuplicateNodes()
+        self.visualisation_window.update()
 
-        self.pygame_instance.draw()
+
+
+    def makeT3Elements(self):
+        i = 0
+        # # split into triangle elements with divisions
+        # Xdiv = float(self.input_variable_vector[4].get())
+        # Ydiv = float(self.input_variable_vector[5].get())
+        # number_of_square_elements = int(Xdiv * Ydiv)
+        # Xstep = (Xmax - Xmin) / Xdiv
+        # Ystep = (Ymax - Ymin) / Ydiv
+        #
+        # geom_data = self.system_data.getGeometryData()
+        # node_vector = []
+        #
+        # for i in range(number_of_square_elements):
+        #     # work like a typewriter, horizontally to the end, then back and up
+        #     Xindex = i%Xdiv
+        #     Yindex = (i - Xindex)/Xdiv
+        #
+        #     #now determine nodes of 1st triangle element at current index
+        #     x1 = Xindex*Xstep
+        #     y1 = Yindex*Ystep
+        #     z1 = 0.0
+        #
+        #     x2 = (Xindex+1)*Xstep
+        #     y2 = y1
+        #     z2 = 0.0
+        #
+        #     x3 = x1
+        #     y3 = (Yindex+1)*Ystep
+        #     z3 = 0.0
+        #
+        #     n1 = [x1,y1,z1]
+        #     n2 = [x2, y2, z2]
+        #     n3 = [x3, y3, z3]
+        #     node_vector.clear()
+        #     node_vector.append(n1)
+        #     node_vector.append(n2)
+        #     node_vector.append(n3)
+        #
+        #     geom_data.add_element('T3',node_vector,2*i + 1)
+        #
+        #     # now determine nodes of 2nd triangle element at current index
+        #     x1 = x2
+        #     y1 = y2
+        #     z1 = z2
+        #
+        #     y2 = y3
+        #     z2 = 0.0
+        #
+        #     n1 = [x1, y1, z1]
+        #     n2 = [x2, y2, z2]
+        #     n3 = [x3, y3, z3]
+        #     node_vector.clear()
+        #     node_vector.append(n1)
+        #     node_vector.append(n2)
+        #     node_vector.append(n3)
+        #
+        #     geom_data.add_element('T3', node_vector, 2 * i + 2)
+        #
+        # self.visualisation_window.update()
 
     def _CreateMaterialEntryWindow(self):
         text_vector = []
