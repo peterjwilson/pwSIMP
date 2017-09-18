@@ -10,7 +10,9 @@ from gui import pygame_window
 from gui import popup_window_form_2col
 
 from fe_code.data_structures import system_data
-from fe_code.data_structures import geometry_data
+from fe_code.data_structures import gui_data
+
+from gui.gui_functions import highlighting
 
 # This class is the main Window of the GUI
 class mainWindow(): # This is the main Window
@@ -23,6 +25,8 @@ class mainWindow(): # This is the main Window
         self.header_color = "#606060"
         self.main_frame = self._SetMainFrame()
         self.system_data = system_data.systemData()
+        self.gui_data = gui_data.guiData()
+        self.highlighting = highlighting.highlighting(self.system_data)
 
 
         # setup variables for input boxes
@@ -45,8 +49,7 @@ class mainWindow(): # This is the main Window
         self.child_frame_2 = self._SetChildFrame(child_frame_2_w)
         self.child_frame_2.pack(anchor=tk.N, fill=tk.BOTH, expand=True, side=tk.LEFT)
         root_window.update()
-        self.pygame_instance = pygame_window.pygameWindow(self.child_frame_2,child_frame_2_w,self.child_frame_2.winfo_height(),self.system_data)
-
+        self.pygame_instance = pygame_window.pygameWindow(self.child_frame_2,child_frame_2_w,self.child_frame_2.winfo_height(),self.system_data,self.gui_data)
 
     def _SetMainFrame(self):
         frame_main = ttk.Frame(self.window)
@@ -61,6 +64,9 @@ class mainWindow(): # This is the main Window
         self._CreateLabel(frame,"Geometry definition",vertical_index,child_frame_1_w)
         self._SetButton_DefineGeometry(frame,"Define basic geometry",vertical_index,child_frame_1_w)
         self._SetButton_ImportGeometry(frame, "Import external geometry", vertical_index, child_frame_1_w)
+
+        self._CreateLabel(frame, "View options", vertical_index, child_frame_1_w)
+        self._SetButton_DisplayNodes(frame, "Display nodes", vertical_index, child_frame_1_w)
 
         self._CreateLabel(frame, "Material definition", vertical_index, child_frame_1_w)
         self._SetButton_DefineMaterial(frame, "Define material properties", vertical_index, child_frame_1_w)
@@ -103,6 +109,13 @@ class mainWindow(): # This is the main Window
         button_geo = tk.Button(frame, text=label_string, width=button_width,
                                command=lambda: self.OpenChildWindow(self._CreateImportGeometryEntryWindow))
         #button_geo.grid(row=vertical_index_position, column=0, columnspan=2)
+        button_geo.pack(fill=tk.X)
+        vertical_index_position[0] += 1
+
+    def _SetButton_DisplayNodes(self, frame, label_string, vertical_index_position, button_width):
+        button_geo = tk.Button(frame, text=label_string, width=button_width,
+                               command=lambda: self.highlighting.highlightAllNodes(self.gui_data,self.pygame_instance))
+        # button_geo.grid(row=vertical_index_position, column=0, columnspan=2)
         button_geo.pack(fill=tk.X)
         vertical_index_position[0] += 1
 

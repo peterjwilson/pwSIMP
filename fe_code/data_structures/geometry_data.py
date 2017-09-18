@@ -2,8 +2,17 @@
 
 class geometryData:
     def __init__(self):
+        # Mesh variables
         self.element_vector = [] #holds references to each element
         self.node_vector = [] #holds references to each node (class)
+        self.bounding_centre = 0
+        self.bounding_radius = 0
+        self.bounding_sphere = [self.bounding_centre,self.bounding_radius]
+
+        # Raw geometry variables
+        self.point_vector = []
+        self.line_vector = []
+        self.surface_vector = []
 
     def add_element(self,element_type,element_nodes,element_number):
         n1 = geometryData.nodal_data(self.node_vector,element_nodes[0])
@@ -52,6 +61,8 @@ class geometryData:
             self.position_vector = position
             self.velocity_vector = []
             self.acceleration_vector = []
+            self.dofs = 2 #hardcoded membrane
+
 
         def printPosition(self):
             print("position = ",self.position_vector)
@@ -61,3 +72,9 @@ class geometryData:
 
         def getPositionVector2D(self):
             return [self.position_vector[0],self.position_vector[1]]
+
+        def getNodeNumber(self):
+            return self.node_number
+
+        def getNumberOfNodalDofs(self):
+            return self.dofs
