@@ -13,3 +13,6 @@ class systemData:
 
     def getConstitutiveData(self):
         return self.constitutiveData
+
+    def getProcessData(self):
+        return self.processesData

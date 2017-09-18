@@ -7,9 +7,13 @@ import logging
 # Project imports
 from gui import visualisation_window
 from gui import popup_window_form_2col
+from gui import popup_window_process_input
 
 from fe_code.data_structures import system_data
 from fe_code.data_structures import gui_data
+
+from fe_code.processes import dirchlet_point
+from fe_code.processes import neumann_point
 
 from gui.gui_functions import highlighting
 
@@ -25,6 +29,7 @@ class mainWindow(): # This is the main Window
         self.main_frame = self._SetMainFrame()
         self.system_data = system_data.systemData()
         self.gui_data = gui_data.guiData()
+        self.process_data = self.system_data.getProcessData()
         self.highlighting = highlighting.highlighting(self.system_data)
 
 
@@ -82,8 +87,8 @@ class mainWindow(): # This is the main Window
         # line
         # surface
 
-        self._CreateLabel(frame, "Discretisation", vertical_index, child_frame_1_w)
-        self._SetButton_DefineManualMesh(frame, "Manually mesh", vertical_index, child_frame_1_w)
+        #self._CreateLabel(frame, "Discretisation", vertical_index, child_frame_1_w)
+        #self._SetButton_DefineManualMesh(frame, "Manually mesh", vertical_index, child_frame_1_w)
         # automesh
 
         self._CreateLabel(frame, "Solution", vertical_index, child_frame_1_w)
@@ -256,68 +261,6 @@ class mainWindow(): # This is the main Window
         geom_data.removeDuplicateNodes()
         self.visualisation_window.update()
 
-
-
-    def makeT3Elements(self):
-        i = 0
-        # # split into triangle elements with divisions
-        # Xdiv = float(self.input_variable_vector[4].get())
-        # Ydiv = float(self.input_variable_vector[5].get())
-        # number_of_square_elements = int(Xdiv * Ydiv)
-        # Xstep = (Xmax - Xmin) / Xdiv
-        # Ystep = (Ymax - Ymin) / Ydiv
-        #
-        # geom_data = self.system_data.getGeometryData()
-        # node_vector = []
-        #
-        # for i in range(number_of_square_elements):
-        #     # work like a typewriter, horizontally to the end, then back and up
-        #     Xindex = i%Xdiv
-        #     Yindex = (i - Xindex)/Xdiv
-        #
-        #     #now determine nodes of 1st triangle element at current index
-        #     x1 = Xindex*Xstep
-        #     y1 = Yindex*Ystep
-        #     z1 = 0.0
-        #
-        #     x2 = (Xindex+1)*Xstep
-        #     y2 = y1
-        #     z2 = 0.0
-        #
-        #     x3 = x1
-        #     y3 = (Yindex+1)*Ystep
-        #     z3 = 0.0
-        #
-        #     n1 = [x1,y1,z1]
-        #     n2 = [x2, y2, z2]
-        #     n3 = [x3, y3, z3]
-        #     node_vector.clear()
-        #     node_vector.append(n1)
-        #     node_vector.append(n2)
-        #     node_vector.append(n3)
-        #
-        #     geom_data.add_element('T3',node_vector,2*i + 1)
-        #
-        #     # now determine nodes of 2nd triangle element at current index
-        #     x1 = x2
-        #     y1 = y2
-        #     z1 = z2
-        #
-        #     y2 = y3
-        #     z2 = 0.0
-        #
-        #     n1 = [x1, y1, z1]
-        #     n2 = [x2, y2, z2]
-        #     n3 = [x3, y3, z3]
-        #     node_vector.clear()
-        #     node_vector.append(n1)
-        #     node_vector.append(n2)
-        #     node_vector.append(n3)
-        #
-        #     geom_data.add_element('T3', node_vector, 2 * i + 2)
-        #
-        # self.visualisation_window.update()
-
     def _CreateMaterialEntryWindow(self):
         text_vector = []
         text_vector.append('Thickness')
@@ -340,3 +283,16 @@ class mainWindow(): # This is the main Window
         constitutive_data = {'thickness':t,'E':E, 'nu':nu,'p':p}
         constitutive_data_pointer.setConstitutiveProperties(constitutive_data)
         #constitutive_data_pointer.printData()
+
+    def _CreateDirichletPoint(self):
+        dirichlet_point_process_vector = self.process_data.getDirichletPointProcessVector()
+
+        self.dirichletPointInput = popup_window_process_input.processInput(dirchlet_point.dirichletPoint,dirichlet_point_process_vector,self.finalizeProcessInput)
+
+    def _CreateNeumannPoint(self):
+        neumann_point_process_vector = self.process_data.getNeumannPointProcessVector()
+
+        self.neumannPointInput = popup_window_process_input.processInput(neumann_point.neumannPoint,neumann_point_process_vector,self.finalizeProcessInput)
+
+    def finalizeProcessInput(self):
+        self.visualisation_window.update()
