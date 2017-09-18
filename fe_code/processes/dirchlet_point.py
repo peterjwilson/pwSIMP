@@ -4,8 +4,21 @@ class dirichletPoint():
     def __init__(self):
         self.prescribed_disp_vector = [0,0,0]
 
-    def implementProcess(self,stiffness_matrix,mass_matrix,force_vector):
-        force_vector = 0
+    def implementProcess(self,stiffness_matrix):
+        # Currently not considering prescribed non-zero displacements!!
+        node_index = self.node_number - 1
+        ndofs = stiffness_matrix.shape[0]
+        dofs = [2*node_index,2*node_index+1]
+        for i in range(2):
+            if self.prescribed_disp_vector[i] != None:
+                for col in range(ndofs):
+                    #go thru cols, holding rows constant
+                    stiffness_matrix[dofs[i],col] = 0.0
+                for row in range(ndofs):
+                    #go thru rows, holding cols constant
+                    stiffness_matrix[row,dofs[i]] = 0.0
+                # add in diagonal entry
+                stiffness_matrix[dofs[i], dofs[i]] = 1.0
 
     def setProcess(self,node_number,disp_vector):
         self.prescribed_disp_vector = disp_vector

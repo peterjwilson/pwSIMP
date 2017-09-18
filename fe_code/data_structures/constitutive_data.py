@@ -8,7 +8,11 @@ class constitutiveData:
     def setConstitutiveProperties(self,ConstitutiveProperties):
         self.constitutive_properties = ConstitutiveProperties
 
+    def getConstitutiveProperties(self):
+        return self.constitutive_properties
+
     def printData(self):
+        #constitutive_data = {'thickness':t,'E':E, 'nu':nu,'p':p}
         print(self.constitutive_properties)
 
 

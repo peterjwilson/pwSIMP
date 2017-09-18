@@ -46,8 +46,10 @@ class visualisationWindow:
     def update(self):
         # plot entities
         self.plotNodes()
-        self.plotElements()
+        self.plotElements('black')
         self.plotProcesses()
+        if self.system_data.getDisplacementsCalculatedBool():
+            self.plotDisplacements('red')
 
         # finalize and update
         plot_bounds = self.geom_data.getSystemExtremities()
@@ -55,6 +57,8 @@ class visualisationWindow:
         self.subPlot.axis(plot_bounds)
         self.MatplotCanvas.show()
         self.MatplotToolbar.update()
+
+
 
     def setPlotNodeNumbers(self, boolean_in):
         self.plot_node_numbers = boolean_in
@@ -90,19 +94,26 @@ class visualisationWindow:
                 node_label = str(i + 1)
                 self.subPlot.text(node_x_positions[i], node_y_positions[i], node_label, color='red')
 
-    def plotElements(self):
+    def plotElements(self,color_in,include_displacements=False):
         lines = []
         for i in range(len(self.element_vector)):
             element = self.element_vector[i]
             element_node_vector = element.getNodalVector()
             for j in range(len(element_node_vector)):
-                n1 = element_node_vector[j]
-                n2 = element_node_vector[(j + 1) % len(element_node_vector)]
-                node1_position = n1.getPositionVector2D()
-                node2_position = n2.getPositionVector2D()
+                n1number = int(element_node_vector[j])
+                n2number = int(element_node_vector[(j + 1) % len(element_node_vector)])
+                node1 = self.node_vector[n1number-1]
+                node2 = self.node_vector[n2number-1]
+                node1_position = node1.getPositionVector2D()
+                node2_position = node2.getPositionVector2D()
+                if include_displacements:
+                    node1_disp = node1.getDisplacements()
+                    node2_disp = node2.getDisplacements()
+                    for k in range(2):
+                        node1_position[k] += node1_disp[k]
+                        node2_position[k] += node2_disp[k]
                 lines.append([(node1_position[0], node1_position[1]), (node2_position[0], node2_position[1])])
-
-        line_collection = mc.LineCollection(lines, colors='grey', linewidths=3)
+        line_collection = mc.LineCollection(lines, colors=color_in, linewidths=3)
         self.subPlot.add_collection(line_collection)
 
     def plotProcesses(self):
@@ -186,3 +197,6 @@ class visualisationWindow:
         self.subPlot.plot([main_point[0],p2[0]], [main_point[1],p2[1]], color = color_in, linestyle='-',linewidth = 8)
         #now add an arrowhead
         self.drawTriangle(main_point,direction,color_in)
+
+    def plotDisplacements(self,color_in):
+        self.plotElements(color_in,True)

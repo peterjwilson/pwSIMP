@@ -5,8 +5,13 @@ class neumannPoint():
         # setup defaults
         self.prescribed_force_vector = [0,0,0]
 
-    def implementProcess(self,stiffness_matrix,mass_matrix,force_vector):
-        force_vector = 0
+    def implementProcess(self,force_vector):
+        node_index = self.node_number - 1
+        dofs = [2*node_index,2*node_index+1]
+        for i in range(2):
+            if self.prescribed_force_vector[i] != None:
+                force_vector[dofs[i]] += self.prescribed_force_vector[i]
+
 
     def setProcess(self,node_number,force_vector):
         self.prescribed_force_vector = force_vector

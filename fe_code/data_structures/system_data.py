@@ -7,6 +7,7 @@ class systemData:
         self.geometryData = geometry_data.geometryData()
         self.constitutiveData = constitutive_data.constitutiveData()
         self.processesData = process_data.processData()
+        self.displacements_calculated = False
 
     def getGeometryData(self):
         return self.geometryData
@@ -16,3 +17,9 @@ class systemData:
 
     def getProcessData(self):
         return self.processesData
+
+    def getDisplacementsCalculatedBool(self):
+        return self.displacements_calculated
+
+    def setDisplacementsCalculatedBool(self,bool_in):
+        self.displacements_calculated =  bool_in
