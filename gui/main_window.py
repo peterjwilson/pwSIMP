@@ -13,6 +13,7 @@ from fe_code.data_structures import geometry_data
 from fe_code.data_structures import gui_data
 
 from fe_code.solvers import linear_static
+from fe_code.solvers import SIMP
 
 from fe_code.processes import dirchlet_point
 from fe_code.processes import neumann_point
@@ -92,6 +93,7 @@ class mainWindow():  # This is the main Window
 
         self._CreateLabel(frame, "Solution", vertical_index, child_frame_1_w)
         self._SetButton_SolveLinearSystem(frame, "Solve linear system", vertical_index, child_frame_1_w)
+        self._SetProgressBar(frame)
         self._SetButton_PerformSIMPOptimisation(frame, "Perform SIMP optimisation", vertical_index, child_frame_1_w)
 
     def _CreateLabel(self, frame, label_string, vertical_index_position, width):
@@ -118,7 +120,7 @@ class mainWindow():  # This is the main Window
 
     def _SetButton_DisplayNodes(self, frame, label_string, vertical_index_position, button_width):
         button_geo = tk.Button(frame, text=label_string, width=button_width,
-                               command=lambda: self.highlighting.highlightAllNodes(self.gui_data, self.pygame_instance))
+                               command=lambda: self.system_data.toggleDisplayNodes(self.visualisation_window.update))
         # button_geo.grid(row=vertical_index_position, column=0, columnspan=2)
         button_geo.pack(fill=tk.X)
         vertical_index_position[0] += 1
@@ -167,7 +169,7 @@ class mainWindow():  # This is the main Window
 
     def _SetButton_PerformSIMPOptimisation(self, frame, label_string, vertical_index_position, button_width):
         button_geo = tk.Button(frame, text=label_string, width=button_width,
-                               command=lambda: self.OpenChildWindow(self._PerformSIMPOptimisation))
+                               command=lambda: self.runSIMPmethod())
         # button_geo.grid(row=vertical_index_position, column=0, columnspan=2)
         button_geo.pack(fill=tk.X)
         vertical_index_position[0] += 1
@@ -254,8 +256,7 @@ class mainWindow():  # This is the main Window
             n4 = int(n3 + 1)
 
             node_numbers = [n1, n2, n4, n3]  # arranged anti-clockwise
-
-            element = geometry_data.element_data_Q4(master_element_vector, node_numbers, i + 1)
+            geometry_data.element_data_Q4(master_element_vector, node_numbers, i + 1)
 
         # geom_data.removeDuplicateNodes()
 
@@ -267,23 +268,28 @@ class mainWindow():  # This is the main Window
         text_vector.append('Youngs modulus')
         text_vector.append('Poissons ratio')
         text_vector.append('Penalty factor p')
+        text_vector.append('Volume fraction')
         self.input_variable_vector.clear()
         self.input_finalize_function = self.finalizeMaterialEntryWindow
-        self.BasicGeometryEntryWindow = popup_window_form_2col.popup_2_col(4, text_vector,
+        self.BasicGeometryEntryWindow = popup_window_form_2col.popup_2_col(5, text_vector,
                                                                            'Enter elastic material data',
                                                                            self.input_variable_vector,
                                                                            self.input_finalize_function)
         return self.BasicGeometryEntryWindow
 
     def finalizeMaterialEntryWindow(self):
-        constitutive_data_pointer = self.system_data.getConstitutiveData()
         t = float(self.input_variable_vector[0].get())
         E = float(self.input_variable_vector[1].get())
         nu = float(self.input_variable_vector[2].get())
         p = float(self.input_variable_vector[3].get())
-        constitutive_data = {'thickness': t, 'E': E, 'nu': nu, 'p': p}
-        constitutive_data_pointer.setConstitutiveProperties(constitutive_data)
-        # constitutive_data_pointer.printData()
+        vol_frac = float(self.input_variable_vector[4].get())
+        self.system_data.setVolumeFrac(vol_frac)
+        constitutive_data = {'thickness': t, 'E': E, 'nu': nu, 'p': p, 'rho':vol_frac}
+        geom_data = self.system_data.getGeometryData()
+        elem_data = geom_data.getElementVector()
+        for i in range(len(elem_data)):
+            e = elem_data[i]
+            e.setConstitutiveData(constitutive_data)
 
     def _CreateDirichletPoint(self):
         dirichlet_point_process_vector = self.process_data.getDirichletPointProcessVector()
@@ -302,6 +308,19 @@ class mainWindow():  # This is the main Window
     def finalizeProcessInput(self):
         self.visualisation_window.update()
 
+    def _SetProgressBar(self,frame):
+        self.progress_bar = ttk.Progressbar(frame, orient=tk.HORIZONTAL, mode='determinate')
+        self.progress_bar.pack(fill=tk.X)
+        self.progress_bar['value'] = 0.0
+
+    def updateProgressBar(self,percentage):
+        self.progress_bar['value'] = percentage
+        self.window.update_idletasks()
+
     def solveLinearElasticSystem(self):
-        linear_static.linearSolver(self.system_data)
+        linear_static.linearSolver(self.system_data,self.updateProgressBar)
+        self.visualisation_window.update()
+
+    def runSIMPmethod(self):
+        SIMP.SIMPOptimisation(self.system_data,self.updateProgressBar,self.visualisation_window.update)
         self.visualisation_window.update()

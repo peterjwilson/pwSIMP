@@ -25,7 +25,7 @@ class visualisationWindow:
         self.tri_size = 2
 
         # Arrow config
-        self.arrow_size = 8
+        self.arrow_size = 4
 
         self.plot_node_numbers = True
 
@@ -44,12 +44,18 @@ class visualisationWindow:
         self.MatplotCanvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     def update(self):
+        self.subPlot.cla()
         # plot entities
-        self.plotNodes()
-        self.plotElements('black')
+        if self.system_data.getDisplayNodes():
+            self.plotNodes()
+        #self.plotElements('black')
         self.plotProcesses()
         if self.system_data.getDisplacementsCalculatedBool():
-            self.plotDisplacements('red')
+            self.plotSIMPresults()
+            #self.plotDisplacements('red')
+        if self.system_data.getSIMPCalculatedBool():
+            self.plotSIMPresults()
+
 
         # finalize and update
         plot_bounds = self.geom_data.getSystemExtremities()
@@ -194,9 +200,27 @@ class visualisationWindow:
 
         #line_collection = mc.LineCollection(line, colors=color_in, linewidths=3)
         #self.subPlot.add_collection(line_collection)
-        self.subPlot.plot([main_point[0],p2[0]], [main_point[1],p2[1]], color = color_in, linestyle='-',linewidth = 8)
+        self.subPlot.plot([main_point[0],p2[0]], [main_point[1],p2[1]], color = color_in, linestyle='-',linewidth = 3)
         #now add an arrowhead
         self.drawTriangle(main_point,direction,color_in)
 
     def plotDisplacements(self,color_in):
         self.plotElements(color_in,True)
+
+    def plotSIMPresults(self):
+        for i in range(len(self.element_vector)):
+            element = self.element_vector[i]
+            element_node_vector = element.getNodalVector()
+            square = []
+            for j in range(len(element_node_vector)):
+                n1number = int(element_node_vector[j])
+                node1 = self.node_vector[n1number - 1]
+                node1_position = node1.getPositionVector2D()
+                square.append(node1_position)
+            square = np.array(square)
+            rho = element.getElementDensity()
+            r = (1.0-rho)
+            b = rho
+            color_in = (r,r,r)
+            my_square = Polygon(square, color=color_in)
+            self.subPlot.add_patch(my_square)

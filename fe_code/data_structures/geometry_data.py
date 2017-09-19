@@ -1,3 +1,6 @@
+from copy import deepcopy
+from sympy import Matrix
+
 class geometryData:
     def __init__(self):
         # Mesh variables
@@ -86,9 +89,43 @@ class element_data_Q4:
         self.element_number = element_number
         self.element_index = element_number - 1 #position in master element vector
         master_element_vector.append(self)
+        self.has_constitutive_data = False
+
+    def setConstitutiveData(self,constitutive_data):
+        self.constitutive_data = deepcopy(constitutive_data)
+        self.thickness = self.constitutive_data['thickness']
+        self.nu = self.constitutive_data['nu']
+        self.E = self.constitutive_data['E']
+        self.p = self.constitutive_data['p']
+        self.rho = self.constitutive_data['rho']
+        self.has_constitutive_data = True
+
+    def setElementK(self,k_in):
+        self.k = k_in
+
+    def getElementK(self):
+        return self.k
+
+    def calculateConstitutiveMatrix(self):
+        #E = self.E*(self.rho**self.p)
+        C = Matrix([[1, self.nu, 0], [self.nu, 1, 0], [0, 0, (1 - self.nu) / 2]])
+        C = C * (self.E / (1 - self.nu ** 2)) * self.thickness
+        return C
 
     def getNodalVector(self):
         return self.element_node_vector
+
+    def setElementDensity(self,rho_in):
+        self.rho = rho_in
+
+    def getElementDensity(self):
+        return self.rho
+
+    def getPenalty(self):
+        return self.p
+
+    def getRhoPowerP(self):
+        return (self.rho**self.p)
 
 class element_data_T3:
     def __init__(self, master_element_vector, node_vector, element_number):
