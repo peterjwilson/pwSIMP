@@ -189,9 +189,9 @@ class visualisationWindow:
 
     def drawArrow(self,main_point,direction,color_in):
         p2 = []
-        if direction == 'leftY':
+        if direction == 'leftX':
             p2 = [main_point[0]-self.arrow_size, main_point[1]]
-        elif direction == 'rightY':
+        elif direction == 'rightX':
             p2 = [main_point[0]+self.arrow_size, main_point[1]]
         elif direction == 'downY':
             p2 = [main_point[0], main_point[1]+self.arrow_size]

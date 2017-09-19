@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bea26d1b-3b3f-49a8-b727-2ea655aa0abe" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/fe_code/solvers/SIMP.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/fe_code/data_structures/constitutive_data.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe_code/data_structures/geometry_data.py" afterPath="$PROJECT_DIR$/fe_code/data_structures/geometry_data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe_code/data_structures/system_data.py" afterPath="$PROJECT_DIR$/fe_code/data_structures/system_data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe_code/solvers/linear_static.py" afterPath="$PROJECT_DIR$/fe_code/solvers/linear_static.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/main_window.py" afterPath="$PROJECT_DIR$/gui/main_window.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fe_code/solvers/SIMP.py" afterPath="$PROJECT_DIR$/fe_code/solvers/SIMP.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/visualisation_window.py" afterPath="$PROJECT_DIR$/gui/visualisation_window.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pwSIMP_main.py" afterPath="$PROJECT_DIR$/pwSIMP_main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,16 +39,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="visualisation_window.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="visualisation_window.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gui/visualisation_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="707">
-              <caret line="202" column="117" lean-forward="false" selection-start-line="202" selection-start-column="117" selection-end-line="202" selection-end-column="117" />
+            <state relative-caret-position="416">
+              <caret line="191" column="30" lean-forward="false" selection-start-line="191" selection-start-column="30" selection-end-line="191" selection-end-column="30" />
               <folding>
                 <element signature="e#17#37#0" expanded="true" />
                 <element signature="e#2309#2788#0" expanded="false" />
                 <element signature="e#2823#3577#0" expanded="false" />
-                <element signature="e#4841#6429#0" expanded="false" />
                 <element signature="e#6500#8025#0" expanded="false" />
               </folding>
             </state>
@@ -82,8 +74,8 @@
       <file leaf-file-name="system_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fe_code/data_structures/system_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="46" column="21" lean-forward="false" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="21" />
+            <state relative-caret-position="961">
+              <caret line="31" column="35" lean-forward="true" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
                 <element signature="e#1095#1232#0" expanded="false" />
@@ -92,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SIMP.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SIMP.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fe_code/solvers/SIMP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-799">
-              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state relative-caret-position="251">
+              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#1227#2105#0" expanded="false" />
@@ -109,12 +101,12 @@
       <file leaf-file-name="linear_static.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fe_code/solvers/linear_static.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="64" column="32" lean-forward="false" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="32" />
+            <state relative-caret-position="79">
+              <caret line="69" column="48" lean-forward="false" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="48" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
+                <element signature="e#1778#2369#0" expanded="false" />
                 <element signature="e#2826#5047#0" expanded="false" />
-                <element signature="e#5126#5542#0" expanded="false" />
                 <element signature="e#5589#6113#0" expanded="false" />
                 <element signature="e#6157#6274#0" expanded="false" />
               </folding>
@@ -176,14 +168,14 @@
         <option value="$PROJECT_DIR$/pwSIMP_main.py" />
         <option value="$PROJECT_DIR$/fe_code/solvers/linear_static.py" />
         <option value="$PROJECT_DIR$/fe_code/data_structures/geometry_data.py" />
-        <option value="$PROJECT_DIR$/gui/visualisation_window.py" />
         <option value="$PROJECT_DIR$/fe_code/data_structures/system_data.py" />
         <option value="$PROJECT_DIR$/gui/main_window.py" />
         <option value="$PROJECT_DIR$/fe_code/solvers/SIMP.py" />
+        <option value="$PROJECT_DIR$/gui/visualisation_window.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -373,7 +365,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21405405" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -707,20 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fe_code/solvers/linear_static.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="64" column="32" lean-forward="false" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#2826#5047#0" expanded="false" />
-            <element signature="e#5126#5542#0" expanded="false" />
-            <element signature="e#5589#6113#0" expanded="false" />
-            <element signature="e#6157#6274#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fe_code/data_structures/geometry_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="451">
@@ -732,20 +710,6 @@
             <element signature="e#2402#2647#0" expanded="false" />
             <element signature="e#5007#5356#0" expanded="false" />
             <element signature="e#5380#6399#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/visualisation_window.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="202" column="117" lean-forward="false" selection-start-line="202" selection-start-column="117" selection-end-line="202" selection-end-column="117" />
-          <folding>
-            <element signature="e#17#37#0" expanded="true" />
-            <element signature="e#2309#2788#0" expanded="false" />
-            <element signature="e#2823#3577#0" expanded="false" />
-            <element signature="e#4841#6429#0" expanded="false" />
-            <element signature="e#6500#8025#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -773,10 +737,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/fe_code/solvers/SIMP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#1227#2105#0" expanded="false" />
+            <element signature="e#2859#3619#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/fe_code/data_structures/system_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="46" column="21" lean-forward="false" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="21" />
+        <state relative-caret-position="961">
+          <caret line="31" column="35" lean-forward="true" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
           <folding>
             <element signature="e#0#49#0" expanded="true" />
             <element signature="e#1095#1232#0" expanded="false" />
@@ -784,14 +760,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fe_code/solvers/SIMP.py">
+    <entry file="file://$PROJECT_DIR$/fe_code/solvers/linear_static.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-799">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        <state relative-caret-position="79">
+          <caret line="69" column="48" lean-forward="false" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="48" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
-            <element signature="e#1227#2105#0" expanded="false" />
-            <element signature="e#2859#3619#0" expanded="false" />
+            <element signature="e#1778#2369#0" expanded="false" />
+            <element signature="e#2826#5047#0" expanded="false" />
+            <element signature="e#5589#6113#0" expanded="false" />
+            <element signature="e#6157#6274#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/visualisation_window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="191" column="30" lean-forward="false" selection-start-line="191" selection-start-column="30" selection-end-line="191" selection-end-column="30" />
+          <folding>
+            <element signature="e#17#37#0" expanded="true" />
+            <element signature="e#2309#2788#0" expanded="false" />
+            <element signature="e#2823#3577#0" expanded="false" />
+            <element signature="e#6500#8025#0" expanded="false" />
           </folding>
         </state>
       </provider>

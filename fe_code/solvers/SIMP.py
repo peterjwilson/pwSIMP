@@ -27,7 +27,7 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,window_update):
 
     # Declarations
 
-    iteration_limit = 5
+    iteration_limit = 1
     filter_radius = 2
 
     # Iteration loop
