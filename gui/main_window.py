@@ -303,6 +303,5 @@ class mainWindow():  # This is the main Window
         self.visualisation_window.update()
 
     def solveLinearElasticSystem(self):
-        self.linear_elastic_solver = linear_static.linearSolver(self.system_data)
-        self.linear_elastic_solver.assembleAndSolve()
+        linear_static.linearSolver(self.system_data)
         self.visualisation_window.update()

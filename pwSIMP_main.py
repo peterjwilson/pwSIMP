@@ -8,23 +8,12 @@ import logging
 
 from gui import main_window
 
+
 def main():
     logging.info("Starting pwSIMP")
     root = tkinter.Tk()
     main_window.mainWindow(root)
-
-    #pygame.display.update()
-
-    while True:
-        root.update()
-
-    # root.after(100,pygame_update)
-    # #root.after_idle(pygame.display.update)
-    # root.mainloop()
-
-
-
-    #root.update()
+    root.mainloop()
 
 
 if __name__ == '__main__':

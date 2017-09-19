@@ -185,11 +185,11 @@ class visualisationWindow:
         p2 = []
         if direction == 'leftY':
             p2 = [main_point[0]-self.arrow_size, main_point[1]]
-        if direction == 'rightY':
+        elif direction == 'rightY':
             p2 = [main_point[0]+self.arrow_size, main_point[1]]
-        if direction == 'downY':
+        elif direction == 'downY':
             p2 = [main_point[0], main_point[1]+self.arrow_size]
-        if direction == 'upY':
+        elif direction == 'upY':
             p2 = [main_point[0], main_point[1]-self.arrow_size]
 
         #line_collection = mc.LineCollection(line, colors=color_in, linewidths=3)
