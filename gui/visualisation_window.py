@@ -48,13 +48,14 @@ class visualisationWindow:
         # plot entities
         if self.system_data.getDisplayNodes():
             self.plotNodes()
-        #self.plotElements('black')
-        self.plotProcesses()
+        #self.plotElements('blue')
+
         if self.system_data.getDisplacementsCalculatedBool():
             self.plotSIMPresults()
             #self.plotDisplacements('red')
         if self.system_data.getSIMPCalculatedBool():
             self.plotSIMPresults()
+        self.plotProcesses()
 
 
         # finalize and update
