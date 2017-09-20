@@ -30,12 +30,12 @@ def assembleAndSolve(master_system_data,updateProgressBarFunc):
 
     # impose processes
     # make a deepcopy before imposing processes
-    K_mod = deepcopy(K)
-    F_mod = deepcopy(F)
-    imposeProcesses(K_mod, F_mod,process_data)
+    #K_mod = K
+    #F_mod = F
+    imposeProcesses(K, F,process_data)
 
     # solve modified system of equations
-    U = la.solve(K_mod, F_mod)
+    U = la.solve(K, F)
     updateProgressBarFunc(90)
 
     # write displacements
@@ -45,7 +45,6 @@ def assembleAndSolve(master_system_data,updateProgressBarFunc):
 
 def computeGlobalStiffnessMatrix(K,element_data,nodal_data,updateProgressBarFunc):
     number_of_elements = len(element_data)
-    use_same_stiffness = True
     stiffness_calculated = False
     local_k = zeros(8, 8)
     # loop over all elements

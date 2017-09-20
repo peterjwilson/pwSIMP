@@ -40,6 +40,7 @@ class mainWindow():  # This is the main Window
         self.child_window_open = False
         self.input_variable_vector = []
         self.input_finalize_function = None
+        self.strain_list = self.system_data.getStrainEnergy()
 
         vertical_index = [1]
         # Setup left frame
@@ -95,6 +96,7 @@ class mainWindow():  # This is the main Window
         self._SetButton_SolveLinearSystem(frame, "Solve linear system", vertical_index, child_frame_1_w)
         self._SetProgressBar(frame)
         self._SetButton_PerformSIMPOptimisation(frame, "Perform SIMP optimisation", vertical_index, child_frame_1_w)
+        self.addStrainEnergyBox(frame,"Strain energy")
 
     def _CreateLabel(self, frame, label_string, vertical_index_position, width):
         # tk.Label(frame, text=label_string, justify=tk.LEFT, bg="#606060",
@@ -229,6 +231,11 @@ class mainWindow():  # This is the main Window
         master_node_vector = geom_data.getNodeVector()
         master_element_vector = geom_data.getElementVector()
 
+        divisions = [Xdiv,Ydiv]
+        self.system_data.setSystemDivisions(divisions)
+        step = [Xstep,Ystep]
+        self.system_data.setSystemStepSize(step)
+
         number_of_nodes = int((Xdiv + 1) * (Ydiv + 1))
 
         for i in range(number_of_nodes):
@@ -322,5 +329,16 @@ class mainWindow():  # This is the main Window
         self.visualisation_window.update()
 
     def runSIMPmethod(self):
-        SIMP.SIMPOptimisation(self.system_data,self.updateProgressBar,self.visualisation_window.update)
+        SIMP.SIMPOptimisation(self.system_data,self.updateProgressBar,self.updateStrainEnergyBox)
         self.visualisation_window.update()
+
+    def addStrainEnergyBox(self,frame,title):
+        ##add list
+        self.listbox = tk.Listbox(frame)
+        self.listbox.pack(fill=tk.BOTH)
+        self.updateStrainEnergyBox()
+
+    def updateStrainEnergyBox(self):
+        self.listbox.delete(0,tk.END)
+        for i in range(len(self.strain_list)):
+            self.listbox.insert(tk.END, str(self.strain_list[i]))

@@ -10,11 +10,11 @@ from sympy.matrices import zeros
 from fe_code.solvers import linear_static
 
 
-def SIMPOptimisation(master_system_data, updateProgressBarFunc,window_update):
-    runSIMPMethod(master_system_data, updateProgressBarFunc,window_update)
+def SIMPOptimisation(master_system_data, updateProgressBarFunc,update_func):
+    runSIMPMethod(master_system_data, updateProgressBarFunc,update_func)
 
 
-def runSIMPMethod(master_system_data, updateProgressBarFunc,window_update):
+def runSIMPMethod(master_system_data, updateProgressBarFunc,update_func):
     # get references
     system_data = master_system_data
     geom_data = master_system_data.getGeometryData()
@@ -28,7 +28,7 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,window_update):
     # Declarations
 
     iteration_limit = 5
-    filter_radius = 2
+    filter_radius = int(2)
 
     # Iteration loop
     for iteration in range(iteration_limit):
@@ -56,7 +56,6 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,window_update):
             p = element.getPenalty()
 
             # Add compliance
-            #f = k * u
             dot_prod = (u.T * k * u)[0]
             compliance += dot_prod #includes density effects
 
@@ -66,11 +65,12 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,window_update):
             dc.append(-p*(rho**(p-1)) * virgin_strain_energy)
 
         #Exit element loop
-        info = 'Compliance = ' + str(compliance)
-        print(info)
-        logging.info(info)
+        master_system_data.appendStrainEnergy(compliance)
+        update_func()
+
         # Filter sensitivities
-        # filterSensitivities
+        divisions = system_data.getSystemDivisions()
+        dc = filterSensitivities(divisions,dc,rho_vector,filter_radius)
 
         # Update design with Optimality Criterion method
         rho_vector = np.array(rho_vector)
@@ -80,25 +80,48 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,window_update):
             element = element_data[i]
             element.setElementDensity(updated_rho[i])
         system_data.setSIMPCalculatedBool(True)
-        #window_update()
+
 
     # Finalise
     #window_update()
 
-def filterSensitivities(dc,filter_radius):
-    filter_radius = 1
+def filterSensitivities(divisions,dc,rho_vector,filter_radius):
+    xdiv = int(divisions[0])
+    ydiv = int(divisions[1])
+    updated_dc = []
+    for row in range(ydiv):
+        for col in range(xdiv):
+            sum = 0.0
+            kmin = int(max(row-filter_radius,0)) #vertical extremities
+            kmax = int(min(row+filter_radius,ydiv))
+            lmin = int(max(col - filter_radius, 0)) # horizontal extremities
+            lmax = int(min(col + filter_radius, xdiv))
+            updated_dc_entry = 0.0
+            for k in range(kmin,kmax):
+                for l in range(lmin, lmax):
+                    lin_pos_l_k = l + k * xdiv
+                    fac = filter_radius - ((row-k)**2 + (col-l)**2)**0.5
+                    sum += max(0.0,fac)
+                    updated_dc_entry += max(0,fac)*rho_vector[lin_pos_l_k]*dc[lin_pos_l_k]
+            updated_dc_entry /= sum
+            updated_dc.append(updated_dc_entry)
+
+    return updated_dc
 
 def updateWithOC(element_data,dc, rho_vector,original_vol_frac):
     l1 = 0
-    l2 = 10000 #100000
-    move = 0.25 #0.2
+    l2 = 100000 #100000
+    move = 0.2 #0.2
     rho_minus = rho_vector - move
     rho_plus = rho_vector + move
-    while (l2-l1) > 0.001:
-        updated_rho = []
+    original_volume = original_vol_frac * len(element_data)
+    number_of_elements = len(rho_vector)
+    while (l2-l1) > 0.0001:
+        #updated_rho = []
+        vol = 0.0
         lmid = 0.5*(l2+l1)
         rho_calc = rho_vector*((-dc/lmid)**0.5)
-        for i in range(len(rho_vector)):
+        for i in range(number_of_elements):
             new_entry = max(0.001,
                            max(rho_minus[i],
                                min(1.0,
@@ -106,10 +129,26 @@ def updateWithOC(element_data,dc, rho_vector,original_vol_frac):
                                    )
                                )
                            )
-            updated_rho.append(new_entry)
-        if sum(updated_rho) - original_vol_frac * len(element_data) > 0:
+            #updated_rho.append(new_entry)
+            vol += new_entry
+        if vol - original_volume > 0:
             l1 = lmid
         else:
             l2 = lmid
+
+    # with the converge lagrangian multiplier, store the results
+
+    updated_rho = []
+    lmid = 0.5 * (l2 + l1)
+    rho_calc = rho_vector * ((-dc / lmid) ** 0.5)
+    for i in range(number_of_elements):
+        new_entry = max(0.001,
+                        max(rho_minus[i],
+                            min(1.0,
+                                min(rho_plus[i], rho_calc[i])
+                                )
+                            )
+                        )
+        updated_rho.append(new_entry)
     return updated_rho
 

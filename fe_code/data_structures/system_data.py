@@ -9,9 +9,24 @@ class systemData:
         self.SIMP_calculated = False
         self.display_nodes = False
         self.original_volume_frac = 1.0
+        self.strain_energy = ['Strain energy']
+        self.system_divisions = [0,0]
+        self.system_step_size = [0,0]
 
     def getGeometryData(self):
         return self.geometryData
+
+    def setSystemDivisions(self,divisions_in):
+        self.system_divisions = divisions_in
+
+    def getSystemDivisions(self):
+        return self.system_divisions
+
+    def setSystemStepSize(self,step_in):
+        self.system_step_size = step_in
+
+    def getSystemStepSize(self):
+        return self.system_step_size
 
     def getConstitutiveData(self):
         return self.constitutiveData
@@ -46,3 +61,9 @@ class systemData:
 
     def getVolumeFrac(self):
         return self.original_volume_frac
+
+    def appendStrainEnergy(self,strain_in):
+        self.strain_energy.append(strain_in)
+
+    def getStrainEnergy(self):
+        return self.strain_energy
