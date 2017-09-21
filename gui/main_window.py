@@ -41,6 +41,7 @@ class mainWindow():  # This is the main Window
         self.input_variable_vector = []
         self.input_finalize_function = None
         self.strain_list = self.system_data.getStrainEnergy()
+        self.visualisation_setup = False
 
         vertical_index = [1]
         # Setup left frame
@@ -56,6 +57,7 @@ class mainWindow():  # This is the main Window
         self.child_frame_2.pack(anchor=tk.N, fill=tk.BOTH, expand=True, side=tk.LEFT)
         root_window.update()
         self.visualisation_window = visualisation_window.visualisationWindow(self.system_data, self.child_frame_2)
+        self.visualisation_setup = True
 
     def _SetMainFrame(self):
         frame_main = ttk.Frame(self.window)
@@ -342,3 +344,5 @@ class mainWindow():  # This is the main Window
         self.listbox.delete(0,tk.END)
         for i in range(len(self.strain_list)):
             self.listbox.insert(tk.END, str(self.strain_list[i]))
+        if self.visualisation_setup:
+            self.visualisation_window.update()

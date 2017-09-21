@@ -22,16 +22,21 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,update_func):
     element_data = geom_data.getElementVector()
     process_data = master_system_data.getProcessData()
 
+    system_data.setSaveImages(False)
+
+
     # Distribute material according to volume fraction. Already done.
     original_vol_frac = system_data.getVolumeFrac()
 
+
     # Declarations
 
-    iteration_limit = 5
+    iteration_limit = 10
     filter_radius = int(2)
 
     # Iteration loop
     for iteration in range(iteration_limit):
+        system_data.incrementSimpIteration()
         # Solve for displacements
         linear_static.linearSolver(master_system_data, updateProgressBarFunc)
 

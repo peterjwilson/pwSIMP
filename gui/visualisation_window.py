@@ -64,6 +64,10 @@ class visualisationWindow:
         self.subPlot.axis(plot_bounds)
         self.MatplotCanvas.show()
         self.MatplotToolbar.update()
+        if self.system_data.getSaveImages():
+            simp_iteration = int(self.system_data.getSimpIteration())
+            filename = 'simp_iteration_' + str(simp_iteration) + '.png'
+            self.f.savefig(filename, bbox_inches="tight")
 
 
 

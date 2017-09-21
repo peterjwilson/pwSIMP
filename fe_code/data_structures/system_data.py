@@ -12,9 +12,23 @@ class systemData:
         self.strain_energy = ['Strain energy']
         self.system_divisions = [0,0]
         self.system_step_size = [0,0]
+        self.save_images = False
+        self.simp_iteration = int(0)
 
     def getGeometryData(self):
         return self.geometryData
+
+    def incrementSimpIteration(self):
+        self.simp_iteration += int(1)
+
+    def getSimpIteration(self):
+        return self.simp_iteration
+
+    def setSaveImages(self,bool_in):
+        self.save_images = bool_in
+
+    def getSaveImages(self):
+        return self.save_images
 
     def setSystemDivisions(self,divisions_in):
         self.system_divisions = divisions_in
