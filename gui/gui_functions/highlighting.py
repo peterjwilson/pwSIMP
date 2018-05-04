@@ -1,4 +1,4 @@
-import pygame
+#import pygame
 
 from fe_code.data_structures import gui_data
 

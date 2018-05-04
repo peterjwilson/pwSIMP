@@ -1,6 +1,8 @@
 # Python imports
 import tkinter as tk
 from tkinter import messagebox
+from typing import Any, Tuple, Union
+
 import matplotlib
 
 matplotlib.use("TkAgg")
@@ -60,7 +62,7 @@ class visualisationWindow:
 
         # finalize and update
         plot_bounds = self.geom_data.getSystemExtremities()
-        self.addPlotFat(plot_bounds, 30.0)
+        self.addPlotFat(plot_bounds, 10.0)
         self.subPlot.axis(plot_bounds)
         self.MatplotCanvas.show()
         self.MatplotToolbar.update()
@@ -224,8 +226,7 @@ class visualisationWindow:
                 square.append(node1_position)
             square = np.array(square)
             rho = element.getElementDensity()
-            r = (1.0-rho)
-            b = rho
-            color_in = (r,r,r)
+            r = float(1.0-rho)
+            color_in = [r, r, r, 1]
             my_square = Polygon(square, color=color_in)
             self.subPlot.add_patch(my_square)

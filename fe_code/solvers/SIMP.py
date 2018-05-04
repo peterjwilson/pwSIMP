@@ -31,7 +31,7 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,update_func):
 
     # Declarations
 
-    iteration_limit = 10
+    iteration_limit = 1
     filter_radius = int(2)
 
     # Iteration loop
