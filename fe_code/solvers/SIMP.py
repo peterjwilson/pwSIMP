@@ -30,8 +30,7 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,update_func):
 
 
     # Declarations
-
-    iteration_limit = 1
+    iteration_limit = 5
     filter_radius = int(2)
 
     # Iteration loop
@@ -85,10 +84,7 @@ def runSIMPMethod(master_system_data, updateProgressBarFunc,update_func):
             element = element_data[i]
             element.setElementDensity(updated_rho[i])
         system_data.setSIMPCalculatedBool(True)
-
-
-    # Finalise
-    #window_update()
+        system_data.setDisplacementsCalculatedBool(False)
 
 def filterSensitivities(divisions,dc,rho_vector,filter_radius):
     xdiv = int(divisions[0])
@@ -141,7 +137,7 @@ def updateWithOC(element_data,dc, rho_vector,original_vol_frac):
         else:
             l2 = lmid
 
-    # with the converge lagrangian multiplier, store the results
+    # with the converged lagrangian multiplier, store the results
 
     updated_rho = []
     lmid = 0.5 * (l2 + l1)

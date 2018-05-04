@@ -53,8 +53,7 @@ class visualisationWindow:
         #self.plotElements('blue')
 
         if self.system_data.getDisplacementsCalculatedBool():
-            self.plotSIMPresults()
-            #self.plotDisplacements('red')
+            self.plotDisplacements('red')
         if self.system_data.getSIMPCalculatedBool():
             self.plotSIMPresults()
         self.plotProcesses()

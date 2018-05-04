@@ -32,7 +32,7 @@ def assembleAndSolve(master_system_data,updateProgressBarFunc):
     # make a deepcopy before imposing processes
     #K_mod = K
     #F_mod = F
-    imposeProcesses(K, F,process_data)
+    imposeProcesses(K, F, process_data)
 
     # solve modified system of equations
     U = la.solve(K, F)
